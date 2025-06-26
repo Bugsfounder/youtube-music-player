@@ -1,22 +1,10 @@
 import streamlit as st
 from ytmusicapi import YTMusic
-from yt_dlp import YoutubeDL
 
 ytmusic = YTMusic()
 
-st.title("🎵 YouTube Music Player (In-App)")
+st.title("🎵 YouTube Music Player (Embed Version)")
 query = st.text_input("Enter song name")
-
-
-def get_audio_url(video_id):
-    with YoutubeDL({"format": "bestaudio"}) as ydl:
-        info = ydl.extract_info(
-            f"https://www.youtube.com/watch?v={video_id}", download=False
-        )
-        for f in info["formats"]:
-            if f["ext"] == "m4a":
-                return f["url"]
-        return info["url"]  # fallback
 
 
 if query:
@@ -26,9 +14,10 @@ if query:
         title = song["title"]
         artist = song["artists"][0]["name"]
         video_id = song["videoId"]
-        audio_url = get_audio_url(video_id)
+        video_url = f"https://www.youtube.com/embed/{video_id}?autoplay=1"
 
         st.markdown(f"### 🎧 {title} - {artist}")
-        st.audio(audio_url, format="audio/mp4")
+        st.components.v1.iframe(video_url, height=80)
     else:
         st.warning("No songs found.")
+
