@@ -17,7 +17,7 @@ if query:
         video_url = f"https://www.youtube.com/embed/{video_id}?autoplay=1"
 
         st.markdown(f"### 🎧 {title} - {artist}")
-        st.components.v1.iframe(video_url, height=80)
+        st.components.v1.iframe(video_url, height=500)
     else:
         st.warning("No songs found.")
 
